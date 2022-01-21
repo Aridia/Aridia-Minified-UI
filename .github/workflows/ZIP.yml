@@ -16,6 +16,11 @@ jobs:
           type: 'zip'
           filename: 'AMUI_Resource_Pack_${{ steps.tag_version.outputs.new_tag }}.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
+      - name: Changelog
+        uses: scottbrenner/generate-changelog-action@master
+        id: Changelog
+        env:
+          REPO: ${{ github.repository }}
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
