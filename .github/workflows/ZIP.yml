@@ -17,13 +17,15 @@ jobs:
           filename: 'AMUI_Resource_Pack_${{ steps.tag_version.outputs.new_tag }}.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
       - name: Changelog
-        uses: scottbrenner/generate-changelog-action@master
+        uses: Bullrich/generate-release-changelog@master
         id: Changelog
+        env:
+          REPO: ${{ github.repository }}
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          body: ${{ steps.Changelog.outputs.changelog }}
           artifacts: 'AMUI_Resource_Pack_${{ steps.tag_version.outputs.new_tag }}.zip'
           token: ${{ secrets.GITHUB_TOKEN }}
